@@ -1,26 +1,152 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Identidade visual baseada na proposta Unilaser */
+@theme {
+  --color-paper: #fbf8f3;
+  --color-card: #ffffff;
+  --color-ink: #16181d;
+  --color-muted: #4a4d56;
+  --color-line: #e6e1d8;
+  --color-sand: #ece7de;
+  --color-blue: #1d3fb0;
+  --color-blue-deep: #142d82;
+  --color-blue-soft: #d6ddf7;
+  --color-pink: #f6c9d6;
+  --color-butter: #f3e3a0;
+  --color-mint: #cfe6d5;
+  --color-peach: #ffd3b0;
+  --color-danger: #b42318;
+  --color-success: #1e7a3c;
+  --color-warn: #8a5a00;
+
+  --radius-ctl: 6px;
+  --radius-tile: 20px;
+
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-bricolage), sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Evita zoom de página enquanto o lojista manipula o canvas */
+.touch-canvas {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-pop {
+  animation: pop-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* resultado do PIX: selo que surge, traço que se desenha, ondas e tremida */
+@keyframes seal-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes ripple {
+  from {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-6px);
+  }
+  40%,
+  80% {
+    transform: translateX(6px);
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-seal {
+  animation: seal-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.animate-draw {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: draw 0.45s 0.35s ease-out forwards;
+}
+.animate-ripple {
+  animation: ripple 1.4s 0.3s ease-out 2 both;
+}
+.animate-shake {
+  animation: shake 0.45s 0.5s ease-in-out both;
+}
+.animate-rise {
+  animation: rise 0.35s 0.55s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-seal,
+  .animate-draw,
+  .animate-ripple,
+  .animate-shake,
+  .animate-rise,
+  .animate-pop {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .animate-ripple {
+    opacity: 0;
+  }
 }
